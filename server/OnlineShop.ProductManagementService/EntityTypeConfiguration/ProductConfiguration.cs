@@ -10,7 +10,7 @@ namespace OnlineShop.ProductManagementService.EntityTypeConfiguration
         {
             builder.HasKey(x => x.Id);
             builder.HasOne(x => x.Category).WithMany(x => x.Products)
-                .HasForeignKey(x => x.Id);
+                .HasForeignKey(x => x.CategoryId);
             builder.Property(x => x.Name).HasMaxLength(256);
             builder.Property(x => x.Description).HasMaxLength(1024);
             builder.Property(x => x.Price).HasPrecision(18, 2);
