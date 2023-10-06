@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using OnlineShop.Library.Exceptions;
 using OnlineShop.ProductManagementService.Data;
+using OnlineShop.ProductManagementService.Models;
 
 namespace OnlineShop.ProductManagementService.Entities.Categories.Commands.DeleteCategory
 {
@@ -19,6 +21,12 @@ namespace OnlineShop.ProductManagementService.Entities.Categories.Commands.Delet
         {
             var category = await _context.Categories
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            if (category == null)
+            {
+                throw new NotFoundException(nameof(Category), request.Id);
+            }
+
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
         }

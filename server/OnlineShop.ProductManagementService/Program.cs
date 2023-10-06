@@ -8,6 +8,7 @@ using OnlineShop.ProductManagementService.Services;
 using FluentValidation;
 using MediatR;
 using OnlineShop.Library.Behaviors;
+using OnlineShop.ProductManagementService.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 RegisterServices(builder.Services);
@@ -53,6 +54,8 @@ void Configire(IApplicationBuilder app)
 
     app.UseAuthentication();
     app.UseAuthorization();
+
+    app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
     app.UseEndpoints(endpoints =>
     {

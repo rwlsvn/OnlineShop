@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using OnlineShop.Library.Exceptions;
 using OnlineShop.ProductManagementService.Data;
 using OnlineShop.ProductManagementService.Models;
 using OnlineShop.ProductManagementService.Services;
@@ -24,6 +25,11 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.DeleteP
         {
             var product = await _context.Products
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            if (product == null)
+            {
+                throw new NotFoundException(nameof(Product), request.Id);
+            }
 
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
