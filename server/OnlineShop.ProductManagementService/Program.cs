@@ -5,6 +5,9 @@ using OnlineShop.Library.DependencyInjection;
 using System.Reflection;
 using OnlineShop.Library.Mapping;
 using OnlineShop.ProductManagementService.Services;
+using FluentValidation;
+using MediatR;
+using OnlineShop.Library.Behaviors;
 
 var builder = WebApplication.CreateBuilder(args);
 RegisterServices(builder.Services);
@@ -30,7 +33,14 @@ void RegisterServices(IServiceCollection services)
         config.AddProfile(new AssemblyMappingProfile(typeof(IProductsDbContext).Assembly));
     });
 
-    services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+    services.AddMediatR(cfg => 
+        cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+    services.AddValidatorsFromAssemblies
+        (new[] {Assembly.GetExecutingAssembly() });
+
+    services.AddTransient(typeof(IPipelineBehavior<,>), 
+        typeof(ValidationBehavior<,>));
 
     services.AddScoped<IStaticFileProvider, StaticFileProvider>();
 
