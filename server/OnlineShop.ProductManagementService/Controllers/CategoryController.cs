@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.ProductManagementService.Controllers.Base;
 using OnlineShop.ProductManagementService.Entities.Categories.Commands.CreateCategory;
@@ -27,6 +28,7 @@ namespace OnlineShop.ProductManagementService.Controllers
             return Ok(vm);
         }
 
+        [Authorize(Roles = "Admin", AuthenticationSchemes = "Bearer")]
         [HttpPost("add")]
         public async Task<ActionResult<Guid>> AddCategory(CreateCategoryDto categoryDto)
         {
@@ -35,6 +37,7 @@ namespace OnlineShop.ProductManagementService.Controllers
             return Ok(categoryId);
         }
 
+        [Authorize(Roles = "Admin", AuthenticationSchemes = "Bearer")]
         [HttpPut("update")]
         public async Task<ActionResult> UpdateCategory(UpdateCategoryDto categoryDto)
         {
@@ -43,6 +46,7 @@ namespace OnlineShop.ProductManagementService.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin", AuthenticationSchemes = "Bearer")]
         [HttpDelete("delete/{id}")]
         public async Task<ActionResult> DeleteCategory(Guid id)
         {

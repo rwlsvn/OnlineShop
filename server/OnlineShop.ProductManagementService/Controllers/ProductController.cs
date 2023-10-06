@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.ProductManagementService.Controllers.Base;
 using OnlineShop.ProductManagementService.Entities.Products.Commands.CreateProduct;
@@ -38,6 +39,7 @@ namespace OnlineShop.ProductManagementService.Controllers
             return Ok(vm);
         }
 
+        [Authorize(Roles = "Admin", AuthenticationSchemes = "Bearer")]
         [HttpPost("add")]
         public async Task<ActionResult<Guid>> AddProduct([FromForm] CreateProductDto productDto)
         {
@@ -46,6 +48,7 @@ namespace OnlineShop.ProductManagementService.Controllers
             return Ok(productId);
         }
 
+        [Authorize(Roles = "Admin", AuthenticationSchemes = "Bearer")]
         [HttpPut("update")]
         public async Task<ActionResult> UpdateProduct([FromForm] UpdateProductDto productDto)
         {
@@ -54,6 +57,7 @@ namespace OnlineShop.ProductManagementService.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin", AuthenticationSchemes = "Bearer")]
         [HttpDelete("delete/{id}")]
         public async Task<ActionResult> DeleteProduct(Guid id)
         {
