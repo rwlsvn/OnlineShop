@@ -22,7 +22,6 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.CreateP
         public async Task<Guid> Handle(CreateProductCommand request,
             CancellationToken cancellationToken)
         {
-            string fileExtension = Path.GetExtension(request.Image.FileName);
             var product = new Product
             {
                 Id = Guid.NewGuid(),
@@ -30,9 +29,18 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.CreateP
                 Name = request.Name,
                 Description = request.Description,
                 Price = request.Price,
-                ImageName = $"{Guid.NewGuid()}{fileExtension}"
             };
-            await _fileProvider.WriteFileAsync(request.Image, product.ImageName);
+
+            if (request.Image != null)
+            {
+                string fileExtension = Path.GetExtension(request.Image.FileName);
+                string imageName = $"{Guid.NewGuid()}{fileExtension}";
+                await _fileProvider.WriteFileAsync(request.Image, imageName);
+                _fileProvider.DeleteFile(product.ImageName);
+
+                product.ImageName = imageName;
+            }
+           
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
             return product.Id;
