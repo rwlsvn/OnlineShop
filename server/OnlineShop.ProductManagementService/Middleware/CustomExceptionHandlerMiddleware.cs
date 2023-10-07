@@ -30,26 +30,21 @@ namespace OnlineShop.ProductManagementService.Middleware
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             var code = HttpStatusCode.InternalServerError;
-            var result = string.Empty;
+            var jsonResponse = JsonSerializer.Serialize(new { message = exception.Message });
+
             switch (exception)
             {
-                case ValidationException validationException:
+                case ValidationException:
                     code = HttpStatusCode.BadRequest;
-                    result = JsonSerializer.Serialize(validationException.Message);
                     break;
                 case NotFoundException:
-                    code = HttpStatusCode.NotFound;
+                    code = HttpStatusCode.NotFound;          
                     break;
             }
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
 
-            if (result == string.Empty)
-            {
-                result = JsonSerializer.Serialize(new { errpr = exception.Message });
-            }
-
-            return context.Response.WriteAsync(result);
+            return context.Response.WriteAsync(jsonResponse);
         }
     }
 }
