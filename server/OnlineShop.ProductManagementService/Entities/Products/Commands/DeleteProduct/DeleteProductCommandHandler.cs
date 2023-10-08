@@ -33,7 +33,10 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.DeleteP
 
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
-            _fileProvider.DeleteFile(product.ImageName);
+            if (product.ImageName != null)
+            {
+                _fileProvider.DeleteFile(product.ImageName);
+            }
         }
     }
 }
