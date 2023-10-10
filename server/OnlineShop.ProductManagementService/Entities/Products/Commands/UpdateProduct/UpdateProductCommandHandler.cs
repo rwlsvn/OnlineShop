@@ -41,7 +41,11 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.UpdateP
                 string fileExtension = Path.GetExtension(request.Image.FileName);
                 string imageName = $"{Guid.NewGuid()}{fileExtension}";
                 await _fileProvider.WriteFileAsync(request.Image, imageName);
-                _fileProvider.DeleteFile(product.ImageName);
+
+                if (product.ImageName != null)
+                {
+                    _fileProvider.DeleteFile(product.ImageName);
+                } 
 
                 product.ImageName = imageName;
             }

@@ -36,7 +36,6 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.CreateP
                 string fileExtension = Path.GetExtension(request.Image.FileName);
                 string imageName = $"{Guid.NewGuid()}{fileExtension}";
                 await _fileProvider.WriteFileAsync(request.Image, imageName);
-                _fileProvider.DeleteFile(product.ImageName);
 
                 product.ImageName = imageName;
             }
