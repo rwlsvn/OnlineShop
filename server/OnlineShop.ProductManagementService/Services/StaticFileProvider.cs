@@ -34,7 +34,7 @@ namespace OnlineShop.ProductManagementService.Services
         {
             var deletePath = Path.Combine(_env.WebRootPath, _filePath, fileName);
 
-            if (Directory.Exists(deletePath) && File.Exists(deletePath))
+            if (File.Exists(deletePath))
             {
                 File.Delete(deletePath);
             }
