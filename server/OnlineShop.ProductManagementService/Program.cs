@@ -9,6 +9,7 @@ using FluentValidation;
 using MediatR;
 using OnlineShop.Library.Behaviors;
 using OnlineShop.ProductManagementService.Middleware;
+using OnlineShop.ProductManagementService.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 RegisterServices(builder.Services);
@@ -46,6 +47,9 @@ void RegisterServices(IServiceCollection services)
     services.AddScoped<IStaticFileProvider, StaticFileProvider>();
 
     services.AddJwtAuth(builder.Configuration);
+
+    services.Configure<StaticFileConfiguration>
+        (builder.Configuration.GetSection("StaticFileConfiguration"));
 }
 
 void Configire(IApplicationBuilder app)
@@ -63,9 +67,4 @@ void Configire(IApplicationBuilder app)
     });
 
     app.UseStaticFiles();
-    app.UseStaticFiles(new StaticFileOptions()
-    {
-        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-        RequestPath = new PathString("/Resources")
-    });
 }
