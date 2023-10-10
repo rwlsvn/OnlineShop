@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using OnlineShop.Library.Exceptions;
 using OnlineShop.ProductManagementService.Data;
 using OnlineShop.ProductManagementService.Models;
 using OnlineShop.ProductManagementService.Services;
@@ -22,6 +24,14 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.CreateP
         public async Task<Guid> Handle(CreateProductCommand request,
             CancellationToken cancellationToken)
         {
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(x => x.Id == request.CategoryId);
+
+            if (category == null)
+            {
+                throw new NotFoundException(nameof(Category), request.CategoryId);
+            }
+
             var product = new Product
             {
                 Id = Guid.NewGuid(),

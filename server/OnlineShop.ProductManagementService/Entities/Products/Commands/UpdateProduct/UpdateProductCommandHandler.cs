@@ -22,13 +22,21 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.UpdateP
 
         public async Task Handle(UpdateProductCommand request,
             CancellationToken cancellationToken)
-        {
+        {  
             var product = await _context.Products
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (product == null)
             {
                 throw new NotFoundException(nameof(Product), request.Id);
+            }
+
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(x => x.Id == request.CategoryId);
+
+            if (category == null)
+            {
+                throw new NotFoundException(nameof(Category), request.CategoryId);
             }
 
             product.CategoryId = request.CategoryId;
