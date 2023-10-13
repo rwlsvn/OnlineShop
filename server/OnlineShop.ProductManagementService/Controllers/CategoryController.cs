@@ -28,7 +28,7 @@ namespace OnlineShop.ProductManagementService.Controllers
             return Ok(vm);
         }
 
-        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = "admin")]
         [HttpPost("add")]
         public async Task<ActionResult<Guid>> AddCategory(CreateCategoryDto categoryDto)
         {
@@ -37,7 +37,7 @@ namespace OnlineShop.ProductManagementService.Controllers
             return Ok(categoryId);
         }
 
-        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = "admin")]
         [HttpPut("update")]
         public async Task<ActionResult> UpdateCategory(UpdateCategoryDto categoryDto)
         {
@@ -46,7 +46,7 @@ namespace OnlineShop.ProductManagementService.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "admin", AuthenticationSchemes = "Bearer")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("delete/{id}")]
         public async Task<ActionResult> DeleteCategory(Guid id)
         {

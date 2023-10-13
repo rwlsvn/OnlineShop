@@ -68,3 +68,5 @@ void Configire(IApplicationBuilder app)
 
     app.UseStaticFiles();
 }
+
+public partial class Program { }
