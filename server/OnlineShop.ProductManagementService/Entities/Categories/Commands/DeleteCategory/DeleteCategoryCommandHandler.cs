@@ -24,7 +24,7 @@ namespace OnlineShop.ProductManagementService.Entities.Categories.Commands.Delet
 
             if (category == null)
             {
-                throw new NotFoundException(nameof(Category), request.Id);
+                throw new EntityNotFoundException(nameof(Category), request.Id);
             }
 
             _context.Categories.Remove(category);

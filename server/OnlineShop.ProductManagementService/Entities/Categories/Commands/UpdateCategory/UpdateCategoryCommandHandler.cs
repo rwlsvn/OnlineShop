@@ -24,7 +24,7 @@ namespace OnlineShop.ProductManagementService.Entities.Categories.Commands.Updat
 
             if (category == null)
             {
-                throw new NotFoundException(nameof(Category), request.Id);
+                throw new EntityNotFoundException(nameof(Category), request.Id);
             }
 
             category.Name = request.Name;

@@ -37,7 +37,7 @@ namespace OnlineShop.ProductManagementService.Middleware
                 case ValidationException:
                     code = HttpStatusCode.BadRequest;
                     break;
-                case NotFoundException:
+                case EntityNotFoundException:
                     code = HttpStatusCode.NotFound;          
                     break;
             }

@@ -29,7 +29,7 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.CreateP
 
             if (category == null)
             {
-                throw new NotFoundException(nameof(Category), request.CategoryId);
+                throw new EntityNotFoundException(nameof(Category), request.CategoryId);
             }
 
             var product = new Product

@@ -28,7 +28,7 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.DeleteP
 
             if (product == null)
             {
-                throw new NotFoundException(nameof(Product), request.Id);
+                throw new EntityNotFoundException(nameof(Product), request.Id);
             }
 
             _context.Products.Remove(product);

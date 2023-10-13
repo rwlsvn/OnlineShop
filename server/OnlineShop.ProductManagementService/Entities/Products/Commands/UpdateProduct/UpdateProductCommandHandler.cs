@@ -28,7 +28,7 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.UpdateP
 
             if (product == null)
             {
-                throw new NotFoundException(nameof(Product), request.Id);
+                throw new EntityNotFoundException(nameof(Product), request.Id);
             }
 
             var category = await _context.Categories
@@ -36,7 +36,7 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Commands.UpdateP
 
             if (category == null)
             {
-                throw new NotFoundException(nameof(Category), request.CategoryId);
+                throw new EntityNotFoundException(nameof(Category), request.CategoryId);
             }
 
             product.CategoryId = request.CategoryId;

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Library.Exceptions
 {
-    public class NotFoundException : Exception
+    public class EntityNotFoundException : Exception
     {
-        public NotFoundException(string name, object key)
+        public EntityNotFoundException(string name, object key)
             : base($"Entity '{name}' ({key}) not found") { }
     }
 }
