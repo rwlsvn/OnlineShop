@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using OnlineShop.Library.Exceptions;
 using OnlineShop.ProductManagementService.Data;
+using OnlineShop.ProductManagementService.Models;
 
 namespace OnlineShop.ProductManagementService.Entities.Products.Queries.GetProductDetails
 {
@@ -23,6 +25,11 @@ namespace OnlineShop.ProductManagementService.Entities.Products.Queries.GetProdu
         {
             var product = await _context.Products.Include(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            if (product == null)
+            {
+                throw new EntityNotFoundException(nameof(Product), request.Id);
+            }
 
             return _mapper.Map<ProductDetailsVm>(product);
         }
