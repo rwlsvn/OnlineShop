@@ -135,7 +135,7 @@ namespace OnlineShop.ProductManagementService.Tests.IntegrationTests
             {
                 var product = await _factory.Context.Products
                     .FirstOrDefaultAsync(x => x.Id == productId);
-                //_factory.Context.Entry(product).Reload();
+                _factory.Context.Entry(product).Reload();
 
                 Assert.NotNull(product);
 
