@@ -11,12 +11,14 @@ namespace OnlineShop.OrderManagementService.EntityTypeConfiguration
             builder.HasKey(x => x.Id);
             builder.HasMany(x => x.Items).WithOne(x => x.Order)
                 .HasForeignKey(x => x.OrderId);
-            builder.HasOne(x => x.Address).WithMany()
-                .HasForeignKey(x => x.AddressId);
             builder.Property(x => x.RecipientFirstName).HasMaxLength(24);
             builder.Property(x => x.RecipientLastName).HasMaxLength(24);
             builder.Property(x => x.RecipientEmail).HasMaxLength(36);
             builder.Property(x => x.RecipientPhone).HasMaxLength(16);
+            builder.Property(x => x.Country).HasMaxLength(36);
+            builder.Property(x => x.City).HasMaxLength(36);
+            builder.Property(x => x.StreetAddresss).HasMaxLength(64);
+            builder.Property(x => x.PostalCode).HasMaxLength(12);
         }
     }
 }
