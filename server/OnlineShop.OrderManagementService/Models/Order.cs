@@ -12,7 +12,7 @@
         public string City { get; set; }
         public string PostalCode { get; set; }
         public string StreetAddresss { get; set; }
-        public DateTime? CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
         public OrderStatus Status { get; set; }
         public ICollection<OrderItem> Items { get; set; }   
     }

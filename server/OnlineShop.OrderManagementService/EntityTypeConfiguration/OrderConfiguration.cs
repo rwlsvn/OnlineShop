@@ -19,6 +19,8 @@ namespace OnlineShop.OrderManagementService.EntityTypeConfiguration
             builder.Property(x => x.City).HasMaxLength(36);
             builder.Property(x => x.StreetAddresss).HasMaxLength(64);
             builder.Property(x => x.PostalCode).HasMaxLength(12);
+            builder.Property(x => x.Status)
+                .HasConversion(x => (int)x, x => (OrderStatus)x);
         }
     }
 }
