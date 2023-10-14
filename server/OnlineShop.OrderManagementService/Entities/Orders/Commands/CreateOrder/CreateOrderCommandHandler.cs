@@ -30,7 +30,7 @@ namespace OnlineShop.OrderManagementService.Entities.Orders.Commands.CreateOrder
                 City = request.City,
                 PostalCode = request.PostalCode,
                 StreetAddresss = request.StreetAddresss,
-                CreationDate = DateTime.UtcNow,
+                CreationDate = DateTime.Now,
                 Status = OrderStatus.New
             };
             await _context.Orders.AddAsync(order);

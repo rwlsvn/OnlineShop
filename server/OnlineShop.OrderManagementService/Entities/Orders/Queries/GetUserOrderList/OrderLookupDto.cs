@@ -9,8 +9,8 @@ namespace OnlineShop.OrderManagementService.Entities.Orders.Queries.GetUserOrder
     {
         public Guid Id { get; set; }
         public DateTime CreationDate { get; set; }
-        public OrderStatus Status { get; set; }
-        public ICollection<Order> Items { get; set; }
+        public string Status { get; set; }
+        public ICollection<OrderItemLookupDto> Items { get; set; }
 
         public void Mapping(Profile profile)
         { 

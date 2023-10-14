@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using OnlineShop.Library.Exceptions;
 using OnlineShop.OrderManagementService.Data;
 using OnlineShop.OrderManagementService.Models;
 
@@ -18,6 +20,14 @@ namespace OnlineShop.OrderManagementService.Entities.OrderItems.Commands.CreateO
         public async Task<Guid> Handle(CreateOrderItemCommand request,
             CancellationToken cancellationToken)
         {
+            var order = await _context.Orders
+                .FirstOrDefaultAsync(x => x.Id == request.OrderId);
+
+            if (order == null) 
+            { 
+                throw new EntityNotFoundException(nameof(Order), request.OrderId);
+            }
+
             var orderItem = new OrderItem
             {
                 Id = Guid.NewGuid(),

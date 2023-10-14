@@ -6,6 +6,7 @@ namespace OnlineShop.OrderManagementService.Models.Dto
 {
     public class CreateOrderItemDto : IMapWith<CreateOrderItemCommand>
     {
+        public Guid OrderId { get; set; }
         public Guid ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal ProductPrice { get; set; }

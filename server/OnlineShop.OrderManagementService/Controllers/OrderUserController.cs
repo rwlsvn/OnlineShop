@@ -21,7 +21,7 @@ namespace OnlineShop.OrderManagementService.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<IList<Order>>> All()
+        public async Task<ActionResult<IList<OrderLookupDto>>> All()
         {
             var query = new GetUserOrderListQuery
             {
