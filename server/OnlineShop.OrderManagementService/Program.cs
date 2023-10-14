@@ -6,6 +6,7 @@ using OnlineShop.Library.Mapping;
 using OnlineShop.Library.DependencyInjection;
 using OnlineShop.OrderManagementService.Data;
 using System.Reflection;
+using OnlineShop.OrderManagementService.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 RegisterServices(builder.Services);
