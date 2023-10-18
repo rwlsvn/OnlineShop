@@ -28,6 +28,12 @@ namespace OnlineShop.OrderManagementService.Entities.OrderItems.Commands.CreateO
                 throw new EntityNotFoundException(nameof(Order), request.OrderId);
             }
 
+            if (order.UserId != request.UserId)
+            {
+                throw new InvalidEntityOwnershipException
+                     (nameof(Order), request.OrderId, request.UserId);
+            }
+
             var orderItem = new OrderItem
             {
                 Id = Guid.NewGuid(),

@@ -40,7 +40,7 @@ namespace OnlineShop.OrderManagementService.Middleware
                     code = HttpStatusCode.NotFound;
                     break;
                 case InvalidEntityOwnershipException:
-                    code = HttpStatusCode.BadRequest;
+                    code = HttpStatusCode.Forbidden;
                     break;
             }
             context.Response.ContentType = "application/json";
