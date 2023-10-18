@@ -37,7 +37,7 @@ namespace OnlineShop.OrderManagementService.Entities.Orders.Commands.UpdateOrder
             order.Country = request.Country;
             order.City = request.City;
             order.PostalCode = request.PostalCode;
-            order.StreetAddresss = request.StreetAddresss;
+            order.StreetAddress = request.StreetAddress;
             await _context.SaveChangesAsync();
         }
     }

@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineShop.OrderManagementService.Controllers.Base;
 using OnlineShop.OrderManagementService.Entities.OrderItems.Commands.DeleteOrderItem;
 using OnlineShop.OrderManagementService.Entities.OrderItems.Commands.UpdateOrderItem;
-using OnlineShop.OrderManagementService.Entities.Orders.Commands.UpdateOrder;
 using OnlineShop.OrderManagementService.Models.Dto;
 
 namespace OnlineShop.OrderManagementService.Controllers
 {
     [Authorize(Roles = "admin")]
+    [Route("api/admin/orderitem")]
     public class OrderItemAdminController : BaseController
     {
         readonly IMapper _mapper;

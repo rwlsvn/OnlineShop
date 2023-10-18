@@ -13,7 +13,7 @@ namespace OnlineShop.OrderManagementService.Models.Dto
         public string Country { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
-        public string StreetAddresss { get; set; }
+        public string StreetAddress { get; set; }
 
         public void Mapping(Profile profile)
         {

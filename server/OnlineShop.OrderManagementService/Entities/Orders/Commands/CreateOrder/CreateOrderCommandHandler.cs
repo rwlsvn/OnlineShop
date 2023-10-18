@@ -29,7 +29,7 @@ namespace OnlineShop.OrderManagementService.Entities.Orders.Commands.CreateOrder
                 Country = request.Country,
                 City = request.City,
                 PostalCode = request.PostalCode,
-                StreetAddresss = request.StreetAddresss,
+                StreetAddress = request.StreetAddress,
                 CreationDate = DateTime.Now,
                 Status = OrderStatus.New
             };

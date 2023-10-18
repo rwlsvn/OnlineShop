@@ -8,6 +8,7 @@ using OnlineShop.OrderManagementService.Models.Dto;
 namespace OnlineShop.OrderManagementService.Controllers
 {
     [Authorize]
+    [Route("api/user/orderitem")]
     public class OrderItemUserController : BaseController
     {
         readonly IMapper _mapper;
@@ -21,6 +22,7 @@ namespace OnlineShop.OrderManagementService.Controllers
         public async Task<ActionResult<Guid>> Add(CreateOrderItemDto orderItemDto)
         {
             var command = _mapper.Map<CreateOrderItemCommand>(orderItemDto);
+            command.UserId = UserId;
             var orderId = await Mediator.Send(command);
 
             return Ok(orderId);

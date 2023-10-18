@@ -4,6 +4,7 @@ namespace OnlineShop.OrderManagementService.Entities.OrderItems.Commands.CreateO
 {
     public class CreateOrderItemCommand : IRequest<Guid>
     {
+        public Guid UserId { get; set; }
         public Guid OrderId { get; set; }
         public Guid ProductId { get; set; }
         public string ProductName { get; set; }

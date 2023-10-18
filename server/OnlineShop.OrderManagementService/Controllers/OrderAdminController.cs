@@ -9,6 +9,7 @@ using OnlineShop.OrderManagementService.Models.Dto;
 namespace OnlineShop.OrderManagementService.Controllers
 {
     [Authorize(Roles = "admin")]
+    [Route("api/admin/order")]
     public class OrderAdminController : BaseController
     {
         readonly IMapper _mapper;

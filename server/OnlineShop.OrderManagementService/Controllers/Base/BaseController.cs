@@ -4,8 +4,7 @@ using System.Security.Claims;
 
 namespace OnlineShop.OrderManagementService.Controllers.Base
 {
-    [ApiController]
-    [Route("api/[controller]")]
+    [ApiController]  
     public class BaseController : ControllerBase
     {
         private IMediator _mediator;

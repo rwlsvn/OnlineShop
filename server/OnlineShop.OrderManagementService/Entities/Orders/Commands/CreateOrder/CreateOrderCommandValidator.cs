@@ -26,7 +26,7 @@ namespace OnlineShop.OrderManagementService.Entities.Orders.Commands.CreateOrder
             RuleFor(createOrderCommand => createOrderCommand.City)
                 .NotEmpty()
                 .MaximumLength(36);
-            RuleFor(createOrderCommand => createOrderCommand.StreetAddresss)
+            RuleFor(createOrderCommand => createOrderCommand.StreetAddress)
                 .NotEmpty()
                 .MaximumLength(64);
             RuleFor(createOrderCommand => createOrderCommand.PostalCode)

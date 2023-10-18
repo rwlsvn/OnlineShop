@@ -11,6 +11,7 @@ using OnlineShop.OrderManagementService.Models.Dto;
 namespace OnlineShop.OrderManagementService.Controllers
 {
     [Authorize]
+    [Route("api/user/order")]
     public class OrderUserController : BaseController
     {
         readonly IMapper _mapper;
