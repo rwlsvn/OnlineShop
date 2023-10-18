@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.OrderManagementService.Data;
+using OnlineShop.OrderManagementService.Entities.Orders.Queries.Common;
 
 namespace OnlineShop.OrderManagementService.Entities.Orders.Queries.GetUserOrderList
 {

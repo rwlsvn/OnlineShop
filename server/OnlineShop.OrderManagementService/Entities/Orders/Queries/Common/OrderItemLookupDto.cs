@@ -2,7 +2,7 @@
 using OnlineShop.Library.Mapping;
 using OnlineShop.OrderManagementService.Models;
 
-namespace OnlineShop.OrderManagementService.Entities.Orders.Queries.GetUserOrderDetails
+namespace OnlineShop.OrderManagementService.Entities.Orders.Queries.Common
 {
     public class OrderItemLookupDto : IMapWith<OrderItem>
     {

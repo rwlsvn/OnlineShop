@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Library.Exceptions;
@@ -7,22 +6,22 @@ using OnlineShop.OrderManagementService.Data;
 using OnlineShop.OrderManagementService.Entities.Orders.Queries.Common;
 using OnlineShop.OrderManagementService.Models;
 
-namespace OnlineShop.OrderManagementService.Entities.Orders.Queries.GetUserOrderDetails
+namespace OnlineShop.OrderManagementService.Entities.Orders.Queries.GetOrderDetails
 {
-    public class GetUserOrderDetailsQueryHandler
-        : IRequestHandler<GetUserOrderDetailsQuery, OrderDetailsVm>
+    public class GetOrderDetailsQueryHandler 
+        : IRequestHandler<GetOrderDetailsQuery, OrderDetailsVm>
     {
         readonly IOrderDbContext _context;
         readonly IMapper _mapper;
 
-        public GetUserOrderDetailsQueryHandler
+        public GetOrderDetailsQueryHandler
             (IOrderDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public async Task<OrderDetailsVm> Handle(GetUserOrderDetailsQuery request,
+        public async Task<OrderDetailsVm> Handle(GetOrderDetailsQuery request,
             CancellationToken cancellationToken)
         {
             var order = await _context.Orders
@@ -32,12 +31,6 @@ namespace OnlineShop.OrderManagementService.Entities.Orders.Queries.GetUserOrder
             if (order == null)
             {
                 throw new EntityNotFoundException(nameof(Order), request.Id);
-            }
-
-            if (order.UserId != request.UserId)
-            {
-                throw new InvalidEntityOwnershipException
-                    (nameof(Order), request.Id, request.UserId);
             }
 
             return _mapper.Map<OrderDetailsVm>(order);

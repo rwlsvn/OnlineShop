@@ -3,9 +3,9 @@ using OnlineShop.Library.Mapping;
 using OnlineShop.OrderManagementService.Entities.Orders.Queries.GetUserOrderList;
 using OnlineShop.OrderManagementService.Models;
 
-namespace OnlineShop.OrderManagementService.Entities.Orders.Queries.GetUserOrderDetails
+namespace OnlineShop.OrderManagementService.Entities.Orders.Queries.Common
 {
-    public class UserOrderDetailsVm : IMapWith<Order>
+    public class OrderDetailsVm : IMapWith<Order>
     {
         public Guid Id { get; set; }
         public string RecipientFirstName { get; set; }
@@ -21,7 +21,7 @@ namespace OnlineShop.OrderManagementService.Entities.Orders.Queries.GetUserOrder
         public ICollection<OrderItemLookupDto> Items { get; set; }
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Order, UserOrderDetailsVm>();
+            profile.CreateMap<Order, OrderDetailsVm>();
         }
     }
 }

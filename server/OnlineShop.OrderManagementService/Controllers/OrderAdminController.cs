@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineShop.OrderManagementService.Controllers.Base;
 using OnlineShop.OrderManagementService.Entities.Orders.Commands.UpdateOrder;
 using OnlineShop.OrderManagementService.Entities.Orders.Commands.UpdateOrderStatus;
+using OnlineShop.OrderManagementService.Entities.Orders.Queries.GetOrderDetails;
+using OnlineShop.OrderManagementService.Entities.Orders.Queries.GetOrderList;
+using OnlineShop.OrderManagementService.Models;
 using OnlineShop.OrderManagementService.Models.Dto;
 
 namespace OnlineShop.OrderManagementService.Controllers
@@ -17,6 +20,32 @@ namespace OnlineShop.OrderManagementService.Controllers
         public OrderAdminController(IMapper mapper)
         {
             _mapper = mapper;
+        }
+
+        [HttpGet("get/{id}")]
+        public async Task<ActionResult<IList<Order>>> GetById(Guid id)
+        {
+            var query = new GetOrderDetailsQuery
+            {
+                Id = id,
+            };
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
+
+        [HttpGet("get")]
+        public async Task<ActionResult<IList<Order>>> GetByQuery(GetOrderListDto orderDto)
+        {
+            var query = new GetOrderListQuery
+            {
+                UserId = orderDto.UserId,
+                RecipientFirstName = orderDto.RecipientFirstName,
+                RecipientLastName = orderDto.RecipientLastName,
+                RecipientEmail = orderDto.RecipientEmail,
+                RecipientPhone = orderDto.RecipientPhone
+            };
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
         }
 
         [HttpPut("update")]
