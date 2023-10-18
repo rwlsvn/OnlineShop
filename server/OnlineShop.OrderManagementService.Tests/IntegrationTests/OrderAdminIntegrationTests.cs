@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.OrderManagementService.Entities.Orders.Queries.Common;
 using OnlineShop.OrderManagementService.Models;
 using OnlineShop.OrderManagementService.Models.Dto;
 using OnlineShop.OrderManagementService.Tests.Data;
 using OnlineShop.OrderManagementService.Tests.Helpers;
 using System.Net;
 using System.Security.Claims;
+using System.Text;
 using System.Text.Json;
 using Xunit;
 
@@ -26,6 +28,95 @@ namespace OnlineShop.OrderManagementService.Tests.IntegrationTests
                 });
 
             _adminClient = _adminFactory.CreateClient();
+        }
+
+        private static IEnumerable<object[]> GetOrderListTestData()
+        {
+            yield return new object[] 
+            { 
+                new GetOrderListDto { UserId = SeedData.UserAId } 
+            };
+            yield return new object[] 
+            { 
+                new GetOrderListDto { RecipientFirstName = SeedData.OrderA.RecipientFirstName } 
+            };
+            yield return new object[] 
+            { 
+                new GetOrderListDto { RecipientLastName = SeedData.OrderA.RecipientLastName } 
+            };
+            yield return new object[] 
+            { 
+                new GetOrderListDto { RecipientEmail = SeedData.OrderA.RecipientEmail } 
+            };
+            yield return new object[] 
+            { 
+                new GetOrderListDto { RecipientPhone = SeedData.OrderA.RecipientPhone } 
+            };
+        }
+
+        [Theory]
+        [MemberData("GetOrderListTestData")]
+        public async Task WHEN_GetOrdersRequest_THEN_OrdersWithFiltersAreRetrieved
+            (GetOrderListDto query)
+        {
+            string jsonPayload = JsonSerializer.Serialize(query);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(_adminClient.BaseAddress + "api/admin/order/get"),
+                Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json")
+            };
+
+            var response = await _adminClient.SendAsync(request).ConfigureAwait(false);
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var ordersList = Newtonsoft.Json.JsonConvert
+                .DeserializeObject<List<OrderLookupDto>>(jsonResponse);
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            foreach (var order in ordersList)
+            {
+                var orderDetails = await _adminFactory.Context.Orders
+                    .FirstOrDefaultAsync(x => x.Id == order.Id 
+                        && (query.UserId == null || x.UserId == query.UserId)
+                        && (query.RecipientFirstName == null 
+                            || x.RecipientFirstName == query.RecipientFirstName)
+                        && (query.RecipientLastName == null 
+                            || x.RecipientLastName == query.RecipientLastName)
+                        && (query.RecipientEmail == null 
+                            || x.RecipientEmail == query.RecipientEmail)
+                        && (query.RecipientPhone == null 
+                            || x.RecipientPhone == query.RecipientPhone));
+
+                Assert.NotNull(orderDetails);
+            }
+        }
+
+        private static IEnumerable<object[]> GetOrderDetailsTestData()
+        {
+            yield return new object[] { SeedData.OrderA.Id, HttpStatusCode.OK };
+            yield return new object[] { Guid.NewGuid(), HttpStatusCode.NotFound };
+        }
+
+        [Theory]
+        [MemberData("GetOrderDetailsTestData")]
+        public async Task WHEN_GetOrderByIdRequest_THEN_OrderIsRetrieved
+           (Guid orderId, HttpStatusCode expectedStatusCode)
+        {
+            var response = await _adminClient.GetAsync($"/api/admin/order/get/{orderId}");
+
+            var order = await _adminFactory.Context.Orders
+                    .FirstOrDefaultAsync(x => x.Id == orderId);
+
+            Assert.Equal(expectedStatusCode, response.StatusCode);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                Assert.NotNull(order);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                Assert.Null(order);
         }
 
         private static IEnumerable<object[]> UpdateOrderTestData()
