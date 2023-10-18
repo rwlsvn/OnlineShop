@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.ProductManagementService.Data;
-using OnlineShop.ProductManagementService.Models;
 
 namespace OnlineShop.ProductManagementService.Entities.Categories.Queries.GetCategoryList
 {
