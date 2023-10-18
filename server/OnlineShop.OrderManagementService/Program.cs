@@ -58,3 +58,5 @@ void Configure(IApplicationBuilder app)
         endpoints.MapControllers();
     });
 }
+
+public partial class Program { }
