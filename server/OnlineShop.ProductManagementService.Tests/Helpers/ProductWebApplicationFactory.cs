@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -122,14 +121,6 @@ namespace OnlineShop.ProductManagementService.Tests.Helpers
                 $"{TestPath}/{SeedData.ProductA.ImageName}", true);
             File.Copy($"images/{SeedData.ProductB.ImageName}",
                 $"{TestPath}/{SeedData.ProductB.ImageName}", true);
-        }
-        public async Task<Stream> GetTestImage()
-        {
-            var memoryStream = new MemoryStream();
-            var fileStream = File.OpenRead("images/test-image.png");
-            await fileStream.CopyToAsync(memoryStream);
-            fileStream.Close();
-            return memoryStream;
         }
     }
 }

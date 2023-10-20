@@ -1,12 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OnlineShop.ProductManagementService.Tests.Helpers
+﻿namespace OnlineShop.ProductManagementService.Tests.Helpers
 {
     internal class TestImageHelper
     {
