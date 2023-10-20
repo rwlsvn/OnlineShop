@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
-using OnlineShop.ProductManagementService.Models;
 using OnlineShop.ProductManagementService.Models.Dto;
 using OnlineShop.ProductManagementService.Tests.Data;
 using OnlineShop.ProductManagementService.Tests.Helpers;

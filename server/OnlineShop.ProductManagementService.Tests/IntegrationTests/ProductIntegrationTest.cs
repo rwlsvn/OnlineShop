@@ -1,12 +1,11 @@
-﻿using Microsoft.Data.SqlClient.Server;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.ProductManagementService.Entities.Products.Queries.GetProductList;
 using OnlineShop.ProductManagementService.Models.Dto;
 using OnlineShop.ProductManagementService.Tests.Data;
 using OnlineShop.ProductManagementService.Tests.Helpers;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 using Xunit;
 
@@ -54,16 +53,67 @@ namespace OnlineShop.ProductManagementService.Tests.IntegrationTests
                 Assert.Null(product);
         }
 
-        [Fact]
-        public async Task WHEN_GetAllProductsRequest_THEN_AllProductsAreRetrieved()
+        private static IEnumerable<object[]> GetProductListTestData()
         {
-            var response = await _client.GetAsync("/api/product/all");
-            var jsonArray = JArray.Parse(await response.Content.ReadAsStringAsync());
-            int expectedArrayLength = _factory.Context.Products.Count();
+            yield return new object[]
+            {
+                new GetProdutcListDto { CategotyName = SeedData.CategoryA.Name }
+            };
+            yield return new object[]
+            {
+                new GetProdutcListDto { MaxPrice = (int)(SeedData.ProductA.Price + 1) }
+            };
+            yield return new object[]
+            {
+                new GetProdutcListDto { MinPrice = (int)(SeedData.ProductA.Price - 1) }
+            };
+            yield return new object[]
+            {
+                new GetProdutcListDto { Name = SeedData.ProductA.Name }
+            };
+            yield return new object[]
+            {
+                new GetProdutcListDto { }
+            };
+        }
+
+        [Theory]
+        [MemberData("GetProductListTestData")]
+        public async Task WHEN_GetAllProductsRequest_THEN_AllProductsAreRetrieved
+            (GetProdutcListDto query)
+        {
+            string jsonPayload = JsonSerializer.Serialize(query);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(_client.BaseAddress + "api/product/get"),
+                Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json")
+            };
+
+            var response = await _client.SendAsync(request).ConfigureAwait(false);
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+
+            var ordersList = Newtonsoft.Json.JsonConvert
+                .DeserializeObject<List<ProductLookupDto>>(jsonResponse);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.Equal("application/json", response.Content.Headers.ContentType.MediaType);
-            Assert.Equal(expectedArrayLength, jsonArray.Count);
+
+            foreach (var order in ordersList)
+            {
+                var orderDetails = await _factory.Context.Products
+                    .FirstOrDefaultAsync(x => x.Id == order.Id
+                        && (query.CategotyName == null
+                        || x.Category.Name == query.CategotyName)
+                    && (query.MinPrice == null
+                        || x.Price >= query.MinPrice)
+                    && (query.MaxPrice == null
+                        || x.Price <= query.MaxPrice)
+                    && (query.Name == null
+                        || x.Name.ToLower().Contains(query.Name.ToLower())));
+
+                Assert.NotNull(orderDetails);
+            }
         }
 
         [Fact]
