@@ -20,10 +20,10 @@ namespace OnlineShop.ProductManagementService.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("all")]
-        public async Task<ActionResult<ProductLookupDto>> AllProducts()
+        [HttpGet("get")]
+        public async Task<ActionResult<ProductLookupDto>> GetProduct(GetProdutcListDto productDto)
         {
-            var query = new GetProductListQuery();
+            var query = _mapper.Map<GetProductListQuery>(productDto);
             var vm = await Mediator.Send(query);
             return Ok(vm);
         }
